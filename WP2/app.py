@@ -94,7 +94,7 @@ if st.button("Analyze Sentiment"):
             for word, scores in adverb_and_adjective_sentiment_scores:
                 st.write(f"Word: {word}")
                 for i, score in enumerate(scores):
-                    st.write(f"Score {i + 1}: {score}")
+                  st.write(f"Score {i + 1}: {score}")
                 st.write("---")
 
         st.subheader("Overall Sentiment:")
