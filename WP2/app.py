@@ -1,4 +1,10 @@
 import streamlit as st
+import streamlit as st
+import nltk
+
+# Download necessary data
+nltk.download("sentiwordnet")
+nltk.download("punkt")
 from nltk.corpus import sentiwordnet as swn
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
