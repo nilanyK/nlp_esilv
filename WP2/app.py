@@ -28,7 +28,7 @@ def load_txt_files(folder_path):
 
 # Load movie reviews from text files
 neg_reviews = load_txt_files("neg")
-pos_reviews = load_txt_files("pos)
+pos_reviews = load_txt_files("pos")
 
 # Combine the positive and negative reviews into a single DataFrame
 reviews_df = pd.DataFrame(data={'review': neg_reviews + pos_reviews, 'sentiment': ['negative'] * len(neg_reviews) + ['positive'] * len(pos_reviews)})
