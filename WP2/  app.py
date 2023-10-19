@@ -25,15 +25,10 @@ def load_txt_files(folder_path):
             reviews.append(review)
     return reviews
 
-import os
-
-# Get the absolute paths for "neg" and "pos" directories
-neg_folder_path = os.path.abspath("neg")
-pos_folder_path = os.path.abspath("pos")
 
 # Load movie reviews from text files
-neg_reviews = load_txt_files(neg_folder_path)
-pos_reviews = load_txt_files(pos_folder_path)
+neg_reviews = load_txt_files("neg")
+pos_reviews = load_txt_files("pos)
 
 # Combine the positive and negative reviews into a single DataFrame
 reviews_df = pd.DataFrame(data={'review': neg_reviews + pos_reviews, 'sentiment': ['negative'] * len(neg_reviews) + ['positive'] * len(pos_reviews)})
