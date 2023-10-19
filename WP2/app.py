@@ -39,7 +39,7 @@ st.title("Movie Review Sentiment Analyzer")
 user_input = st.text_area("Enter a movie review:")
 
 # Add a "Submit" button
-if st.button("Submit"):
+if st.button("Analyze"):
     if user_input:
         # Vectorize the user input using the same TF-IDF vectorizer
         user_input_vectorized = tfidf_vectorizer.transform([user_input])
