@@ -7,8 +7,15 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
+# Get the absolute path to the directory containing this script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Specify the file paths relative to the current directory
+articles_file = os.path.join(current_dir, 'CNNArticles')
+abstracts_file = os.path.join(current_dir, 'CNNGold')
+
 # Load CNN dataset
-articles, abstracts = cnn.loadCNN()
+articles, abstracts = cnn.loadCNN(articles_file, abstracts_file)
 
 # Create a TfidfVectorizer with specific settings
 # It will convert text data into TF-IDF feature vectors
