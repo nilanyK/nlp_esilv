@@ -1,108 +1,54 @@
+import os
 import streamlit as st
-from nltk.corpus import sentiwordnet as swn
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk import pos_tag
+import pandas as pd
 import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
+# Download the "movie_reviews" dataset from NLTK
+nltk.download('movie_reviews')
 
-nltk.download('wordnet')
-nltk.download('punkt')
-nltk.download('sentiwordnet')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
+# Load movie reviews from NLTK's movie_reviews corpus
+from nltk.corpus import movie_reviews
+reviews = [(list(movie_reviews.words(fileid)), category) for category in movie_reviews.categories() for fileid in movie_reviews.fileids(category)]
 
-# Function to calculate sentiment scores using SentiWordNet
-def get_sentiment_scores(word):
-    synsets = list(swn.senti_synsets(word))
-    if synsets:
-        sentiment_scores = [(synset.pos_score(), synset.neg_score(), synset.obj_score()) for synset in synsets]
-        return sentiment_scores
-    else:
-        return [(0.0, 0.0, 0.0)]  # Return a single neutral score if no sentiment scores are available
+# Create a DataFrame
+df = pd.DataFrame(reviews, columns=['text', 'sentiment'])
 
-# Function to identify adverbs and adjectives and their sentiment scores
-def analyze_review(review_text):
-    stop_words = set(stopwords.words('english'))
-    words = word_tokenize(review_text)
-    tagged_words = pos_tag(words)
-    adverbs_and_adjectives = [word for word, pos in tagged_words if (pos == 'RB' or pos == 'JJ') and word.lower() not in stop_words]
-    
-    adverb_and_adjective_sentiment_scores = []
-    for word in adverbs_and_adjectives:
-        sentiment_scores = get_sentiment_scores(word)
-        adverb_and_adjective_sentiment_scores.append((word, sentiment_scores))
-    
-    return adverb_and_adjective_sentiment_scores
+# Create a TF-IDF vectorizer
+tfidf_vectorizer = TfidfVectorizer(max_features=2000)
+X_tfidf = tfidf_vectorizer.fit_transform(df['text'].apply(' '.join))
 
-# Function to get overall sentiment
+# Split the data into training and testing sets
+X_train_tfidf, X_test_tfidf, y_train, y_test = train_test_split(X_tfidf, df['sentiment'], test_size=0.2, random_state=42)
 
-def get_overall_sentiment(sentiment_scores):
-    # Initialize total scores
-    total_positive_score = 0.0
-    total_negative_score = 0.0
-    total_objective_score = 0.0
+# Train a Support Vector Machine (SVM) classifier
+svm_classifier = SVC()
+svm_classifier.fit(X_train_tfidf, y_train)
 
-    # Check if the sentiment scores iterable is empty
-    if not sentiment_scores:
-        return "Neutral"
+# Evaluate the SVM classifier
+y_pred_svm = svm_classifier.predict(X_test_tfidf)
+accuracy_svm = accuracy_score(y_test, y_pred_svm)
 
-    # Iterate over the sentiment scores and sum the positive, negative, and objective scores
-    for score in sentiment_scores:
-        try:
-            positive_score, negative_score, objective_score = score
-            total_positive_score += float(positive_score)
-            total_negative_score += float(negative_score)
-            total_objective_score += float(objective_score)
-        except ValueError:
-            # Ignore scores that cannot be converted to floats
-            pass
+# Streamlit app
+st.title("Movie Review Sentiment Analyzer")
 
-    # Check if all scores are greater than or equal to zero
-    if total_positive_score >= 0 and total_negative_score >= 0 and total_objective_score >= 0:
-        # Determine overall sentiment polarity
-        if total_positive_score > total_negative_score and total_positive_score > total_objective_score:
-            return "Positive"
-        elif total_negative_score > total_positive_score and total_negative_score > total_objective_score:
-            return "Negative"
-        elif total_objective_score > total_positive_score and total_objective_score > total_negative_score:
-            return "Objective"
-        else:
-            return "Neutral"
-    else:
-        # Return neutral if any of the scores are less than zero
-        return "Neutral"
+# Input text box for user reviews
+user_input = st.text_area("Enter a movie review:")
 
-
-
-# Streamlit UI
-st.title("Movie Review Sentiment Analysis")
-
-# Input for entering a movie review
-user_input = st.text_area("Enter your movie review:")
-if st.button("Analyze Sentiment"):
+# Add a "Submit" button
+if st.button("Analyze"):
     if user_input:
-        st.subheader("Review:")
-        st.write(user_input)
+        # Vectorize the user input using the same TF-IDF vectorizer
+        user_input_vectorized = tfidf_vectorizer.transform([user_input])
 
-        st.subheader("Adverbs and Adjectives and Their Sentiment Scores:")
-        adverb_and_adjective_sentiment_scores = analyze_review(user_input)
+        # Predict the sentiment
+        sentiment = svm_classifier.predict(user_input_vectorized)
 
-        if not adverb_and_adjective_sentiment_scores:
-            st.write("No adverbs or adjectives found in the review.")
-        else:
-            for word, scores in adverb_and_adjective_sentiment_scores:
-                st.write(f"Word: {word}")
-                for i, score in enumerate(scores):
-                  st.write(f"Score {i + 1}: {score}")
-                st.write("---")
+        # Display the result
+        st.write("Sentiment:", sentiment[0])
 
-        st.subheader("Overall Sentiment:")
-        overall_sentiment = get_overall_sentiment(adverb_and_adjective_sentiment_scores)
-
-        # Display the overall sentiment, even if the review does not contain any adverbs or adjectives
-        if overall_sentiment is None:
-            st.write("Neutral")
-        else:
-            st.write(overall_sentiment)
-
+        # Display accuracy of the SVM model (optional)
+        st.write(f"Model Accuracy: {accuracy_svm:.2f}")
