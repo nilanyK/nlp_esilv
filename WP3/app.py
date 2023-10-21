@@ -58,12 +58,12 @@ if st.button("🔍 Retrieve Documents"):
             st.write(document)
 
 i = 10  # Customize the index
-st.header(f"Example: Retrieve the most similar document for Abstract {i} ")
-st.write("Query Abstract:")
+st.header(f"Example: Retrieve the most similar document for abstract {i} ")
+st.write("Query abstract:")
 st.write(abstracts[i])
 
 best_similarity = np.max(scores[i])
 best_location = np.argmax(scores[i])
-st.write(f"📊 Best similarity with Abstract {best_location} : {best_similarity} ")
+st.write(f"📊 Best similarity with abstract {best_location} : {best_similarity} ")
 st.write("Matching Document:")
 st.write(articles[best_location])
