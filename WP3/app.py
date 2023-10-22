@@ -12,19 +12,6 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load CNN dataset
 articles, abstracts = cnn.loadCNN()
 
-# Create a TfidfVectorizer with specific settings
-# It will convert text data into TF-IDF feature vectors
-tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
-
-# Apply TF-IDF vectorization to the "articles" text data and "abstracts" text data
-# This computes TF-IDF values for each term in the articles and produces a TF-IDF matrix
-tfidf_articles = tfidf_vectorizer.fit_transform(articles)
-# This computes TF-IDF values for each term in the abstracts and produces a TF-IDF matrix
-tfidf_abstracts = tfidf_vectorizer.transform(abstracts)
-
-# Calculate similarity scores using linear_kernel
-scores = linear_kernel(tfidf_abstracts, tfidf_articles)
-
 @st.cache(persist=True)
 def get_tfidf_vectorizer(articles):
     tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
@@ -56,13 +43,4 @@ if st.button("🔍 Retrieve Documents"):
             st.subheader(f"🏆 Rank {i}:")
             st.write(document)
 
-i = 10  # Customize the index
-st.header(f"Example: Retrieve the most similar document for abstract {i} ")
-st.write("Query abstract:")
-st.write(abstracts[i])
 
-best_similarity = np.max(scores[i])
-best_location = np.argmax(scores[i])
-st.write(f"📊 Best similarity with abstract {best_location} : {best_similarity} ")
-st.write("Matching Document:")
-st.write(articles[best_location])
