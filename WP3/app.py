@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import linear_kernel
 # Load CNN dataset
 articles, abstracts = cnn.loadCNN()
 
-@st.cache
+@st.cache(persist=True)
 def get_tfidf_vectorizer(articles):
     tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
     return tfidf_vectorizer.fit_transform(articles)
@@ -18,9 +18,9 @@ def get_tfidf_vectorizer(articles):
 # Retrieve the TF-IDF vectorizer, cached for efficiency
 tfidf_articles = get_tfidf_vectorizer(articles)
 
-@st.cache
+@st.cache(persist=True)
 def retrieve_top_documents(query_summary, tfidf_articles, articles, k=10):
-    query_vector = tfidf_vectorizer.transform([query_summary])
+    query_vector = tfidf_articles.transform([query_summary])
     similarity_scores = linear_kernel(query_vector, tfidf_articles)
     document_indices = similarity_scores.argsort()[0][::-1][:k]
     top_documents = [articles[i] for i in document_indices]
@@ -46,8 +46,12 @@ st.header(f"Example: Retrieve the most similar document for abstract {i} ")
 st.write("Query abstract:")
 st.write(abstracts[i])
 
-best_similarity = np.max(scores[i])
-best_location = np.argmax(scores[i])
+# Calculate similarity scores using linear_kernel for the selected abstract
+query_vector = tfidf_articles[i]  # Assuming you want to calculate similarity with a specific abstract (e.g., index 10)
+scores = linear_kernel(query_vector, tfidf_articles)
+
+best_similarity = np.max(scores)
+best_location = np.argmax(scores)
 st.write(f"📊 Best similarity with abstract {best_location} : {best_similarity} ")
 st.write("Matching Document:")
 st.write(articles[best_location])
