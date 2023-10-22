@@ -20,6 +20,6 @@ def loadCNN():
 
     return articles, abstracts
 
-
+articles, abstracts = loadCNN()
 print("ARTICLE=",articles[0])
 print("SUMMARY=",abstracts[0])
