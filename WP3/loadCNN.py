@@ -1,24 +1,25 @@
 import pickle
+from pathlib import Path
 
 def loadCNN():
-	file = open("CNNArticles",'rb')
-	articles = pickle.load(file)
-	file = open("CNNGold",'rb')
-	abstracts = pickle.load(file)
+    # Get the directory where the loadCNN.py script is located
+    script_directory = Path(__file__).parent
 
-	articlesCl = []  
-	for article in articles:
-		articlesCl.append(article.replace("”", "").rstrip("\n"))
-	articles = articlesCl
-	  
-	articlesCl = []  
-	for article in abstracts:
-		articlesCl.append(article.replace("”", "").rstrip("\n"))
-	abstracts = articlesCl
-    
-	return articles, abstracts
+    # Construct the full file paths
+    articles_file = script_directory / "CNNArticles"
+    abstracts_file = script_directory / "CNNGold"
 
-articles, abstracts = loadCNN()
+    # Load articles and abstracts from the files
+    with open(articles_file, 'rb') as article_file, open(abstracts_file, 'rb') as abstract_file:
+        articles = pickle.load(article_file)
+        abstracts = pickle.load(abstract_file)
+
+    # Clean up the articles and abstracts as needed
+    articles = [article.replace("”", "").rstrip("\n") for article in articles]
+    abstracts = [article.replace("”", "").rstrip("\n") for article in abstracts]
+
+    return articles, abstracts
+
 
 print("ARTICLE=",articles[0])
 print("SUMMARY=",abstracts[0])
