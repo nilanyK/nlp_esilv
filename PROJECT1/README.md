@@ -59,4 +59,4 @@ The project repository contains the following files :
 
 ### Colab Notebook
 
-You can find the Colab Notebook for this project [here](insert_your_colab_notebook_link_here).
+You can find the Colab Notebook for this project [here](https://colab.research.google.com/drive/1nU0mSg2O-pSoDkhC_ZOivF4t9D-RvgNg?usp=sharing)
