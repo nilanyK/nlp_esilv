@@ -41,7 +41,7 @@ The project repository contains the following files :
      **• Local Access** <br>
      - Clone this GitHub repository to your local machine using the following command:
        ```bash
-       git clone https://github.com/nilanyK/
+       git clone https://github.com/nilanyK/nlp_esilv.git
        ```
      - Change to the project directory:
        ```bash
