@@ -45,7 +45,7 @@ The project repository contains the following files :
        ```
      - Change to the project directory:
        ```bash
-       cd NLP project
+       cd PROJECT1
        ```
      - Run the Streamlit app by executing `app.py` :
        ```python
