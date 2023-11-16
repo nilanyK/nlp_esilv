@@ -38,7 +38,7 @@ The project repository contains the following files :
 
 2. **Streamlit App** <br>
      **• Public Access** <br>
-       You can acces the app through this link : https://poste-immo-jcewg5jupydyea399bjg9i.streamlit.app/ <br>
+       You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
      **• Local Access** <br>
      - Clone this GitHub repository to your local machine using the following command:
        ```bash
