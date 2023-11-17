@@ -36,9 +36,9 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
     # Calculate TF-IDF scores for the user query and documents
     user_query_vector = tfidf_vectorizer.transform([user_query])
 
-   for docId, doc_text in dicDoc.items():
-       if i >= (nb_docs):
-           break
+    for docId, doc_text in dicDoc.items():
+        if i >= nb_docs:
+            break
         doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
         cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
         docsToKeep.append((docId, cos_sim))
@@ -47,10 +47,11 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
     # Sort the documents by their scores in descending order
     docsToKeep.sort(key=lambda x: x[1], reverse=True)
 
-    # Take the top nb_docs documents (as specified by the user)
-    top_documents = docsToKeep[:nb_docs]
+    # Take the top nb_docs documents 
+    top_documents = docsToKeep[:5]
 
     return top_documents
+
 
 # Calculate NDCG@5
 @st.cache(persist=True)
@@ -70,7 +71,7 @@ The goal was to develop an original information retrieval system on NFCorpus. We
 # Create a form to enter the user query and trigger the button with Enter key
 with st.form(key='query_form'):
     query_input = st.text_area("📝 Enter your query", height=100)
-    nb_docs = st.slider("📄 Number of Documents to Consider", min_value=0, max_value=500, value=150)  # Add a slider for nb_docs
+    nb_docs = st.slider("📄 Number of Documents to Consider", min_value=0, max_value=3192, value=150)  # Add a slider for nb_docs
     submitted = st.form_submit_button("🔍 Retrieve Top Documents")
 
     if submitted or query_input:
