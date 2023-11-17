@@ -35,7 +35,7 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
 
     # Calculate TF-IDF scores for the user query and documents
     user_query_vector = tfidf_vectorizer.transform([user_query])
-
+    i=0
     for docId, doc_text in dicDoc.items():
         if i >= nb_docs:
             break
