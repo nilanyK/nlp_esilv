@@ -37,12 +37,12 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
     user_query_vector = tfidf_vectorizer.transform([user_query])
 
    for docId, doc_text in dicDoc.items():
-      if i >= (nb_docs):
+       if i >= (nb_docs):
             break
-      doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
-      cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
-      docsToKeep.append((docId, cos_sim))
-      i=i+1
+        doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
+        cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
+        docsToKeep.append((docId, cos_sim))
+        i=i+1
        
     # Sort the documents by their scores in descending order
     docsToKeep.sort(key=lambda x: x[1], reverse=True)
