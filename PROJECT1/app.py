@@ -38,7 +38,7 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
 
    for docId, doc_text in dicDoc.items():
        if i >= (nb_docs):
-            break
+           break
         doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
         cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
         docsToKeep.append((docId, cos_sim))
