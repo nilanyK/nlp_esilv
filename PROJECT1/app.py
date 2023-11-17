@@ -5,7 +5,7 @@ from sklearn.metrics import ndcg_score
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from collections import defaultdict
-import loadNFCorpus as nfc  # Import the loadNFCorpus function from your separate file
+import loadNFCorpus as nfc  
 
 # Suppress the deprecation message
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -36,11 +36,14 @@ def run_custom_tfidf(dicDoc, user_query, nb_docs):
     # Calculate TF-IDF scores for the user query and documents
     user_query_vector = tfidf_vectorizer.transform([user_query])
 
-    for docId, doc_text in dicDoc.items():
-        doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
-        cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
-        docsToKeep.append((docId, cos_sim))
-
+   for docId, doc_text in dicDoc.items():
+      if i >= (nb_docs):
+            break
+      doc_vector = tfidf_vectorizer.transform([text_preprocessing(doc_text)])
+      cos_sim = (user_query_vector * doc_vector.T).toarray()[0][0]
+      docsToKeep.append((docId, cos_sim))
+      i=i+1
+       
     # Sort the documents by their scores in descending order
     docsToKeep.sort(key=lambda x: x[1], reverse=True)
 
