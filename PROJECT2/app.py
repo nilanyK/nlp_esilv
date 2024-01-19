@@ -187,8 +187,14 @@ restaurants_to_drop = [
 
 data = data[~data['Restaurant'].isin(restaurants_to_drop)]
 
-# Display an image at the top of the page
-st.image('image_restaurant.jpg', use_column_width=True)
+# Get the directory where the script is located
+script_directory = Path(__file__).parent
+
+# Construct the full path for the image file
+image_file_path = script_directory / 'image_restaurant.jpg'
+
+# Now display the image in Streamlit using the full path
+st.image(image_file_path, use_column_width=True)
 
 # Sidebar with terms 
 selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "RAG", "QA"])
