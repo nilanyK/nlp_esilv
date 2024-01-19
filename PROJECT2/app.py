@@ -11,16 +11,22 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from numpy import mean, zeros
 from scipy.spatial.distance import cosine
 from gensim.models import Word2Vec
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
-from matplotlib.pyplot import *
-from sklearn.svm import SVC
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
 nltk.download('punkt')
 
 # Download NLTK stopwords data (if not already downloaded)
 nltk.download('stopwords')
+from pathlib import Path
 
+# Get the directory where the script is located
+script_directory = Path(__file__).parent
+
+# Function to load data from CSV files
+def load_csv(file_name):
+    # Construct the full path for the CSV file
+    file_path = script_directory / file_name
+    # Read the CSV file using the full path
+    return pd.read_csv(file_path, sep=',')
 # Define the words to remove
 custom_stopwords = set(stopwords.words('english'))
 custom_stopwords.discard('not')
@@ -42,41 +48,17 @@ def preprocess(text):
 
 
 
-df = pd.read_csv('preprocess_df.csv', sep=',')
+# Load the model from the file
+#with open('svm_model.pkl', 'rb') as model_file:
+    #loaded_model = pickle.load(model_file)
+
+df = load_csv('preprocess_df.csv')
 
 # Remove rows with NaN values in the 'Processed_Review' column
 df = df.dropna(subset=['Processed_Review'])
 
 # Fit the TF-IDF vectorizer
-X = tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
-
-def map_sentiments(sentiment):
-    if sentiment == 'Positive':
-        return 1
-    else:  # This covers both 'Negative' and 'Neutral'
-        return 0
-
-# Apply the function to the 'Sentiment' column
-y = df['Sentiment'].apply(map_sentiments)
-
-# For example, to match the number of samples in the positive class:
-target_negative_count = y.value_counts()[1]  # number of samples in the positive class
-
-# Define the sampling strategy
-sampling_strategy = {0: target_negative_count}  # 0 corresponds to the 'Negative' class
-
-# Apply SMOTE
-smote = SMOTE(sampling_strategy=sampling_strategy)
-X, y = smote.fit_resample(X, y)
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Create an SVM model with probability estimation enabled
-svm_model = SVC(probability=True)
-
-# Train the model with your data
-svm_model.fit(X_train, y_train)
-y_pred = svm_model.predict(X_test)
+tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
 
 # Set the page layout to wide
 st.set_page_config(layout="wide")
@@ -182,10 +164,10 @@ local_css()
 
 def load_data():
     # Replace with your DataFrame path
-    data = pd.read_csv("lda_results.csv")
+    data = load_csv("lda_results.csv")
     data['Restaurant'] = data['Restaurant'].str.title()  # Convert restaurant names to title case
     # Load the summary data from another file (e.g., CSV) and create a DataFrame
-    summary_data = pd.read_csv("summary_reviews_restaurants.csv")  # Replace with the correct file path
+    summary_data = load_csv("summary_reviews_restaurants.csv")  # Replace with the correct file path
     summary_data['Restaurant'] = summary_data['Restaurant'].str.title()  # Convert restaurant names to title case
 
     # Merge the summary DataFrame with the main DataFrame on the 'Restaurant' column
@@ -322,7 +304,7 @@ def summary_and_explanation():
             st.markdown(f'<p style="text-align: center;">{row["Review"]}</p><hr>', unsafe_allow_html=True)
 
 
-
+"""
 def Prediction():
     # Streamlit App
     st.title("Prediction using Sentiment Analysis")
@@ -338,10 +320,10 @@ def Prediction():
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
 
             # Predict the sentiment
-            sentiment = svm_model.predict(vectorized_review)[0]
+            sentiment = loaded_model.predict(vectorized_review)[0]
 
             # Predict the probabilities
-            probabilities = svm_model.predict_proba(vectorized_review)[0]
+            probabilities = loaded_model.predict_proba(vectorized_review)[0]
 
             # Extracting the probability of the predicted class
             probability = max(probabilities)
@@ -353,7 +335,7 @@ def Prediction():
 
             # Display accuracy of the SVM model 
             st.write(f"Score : {probability:.2f}")
-
+"""
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
     model = Word2Vec.load("word2vec.model")
@@ -424,7 +406,7 @@ def InformationRetrieval():
             for i, (review, similarity) in enumerate(search_results, start=1):
                 if search_option == "All Restaurants":
                     # If searching for all restaurants, display the restaurant name for each review
-                    st.markdown(f"🍽️ {restaurant_data.iloc[i-1]['Restaurant']}")
+                    st.markdown(f"Restaurant : {restaurant_data.iloc[i-1]['Restaurant']}")
                 st.markdown(f"Review {i} (Similarity Score : {similarity:.2f}):")
                 review_html = display_review_with_stars(restaurant_data.iloc[i-1]['Rating'])
                 st.markdown(review_html, unsafe_allow_html=True)
@@ -434,8 +416,8 @@ def InformationRetrieval():
 # Call the corresponding function based on the selected term
 if selected_term == "Summary & Explanation":
     summary_and_explanation()
-elif selected_term == "Prediction":
-    Prediction()
+#elif selected_term == "Prediction":
+    #Prediction()
 elif selected_term == "Information Retrieval":
     InformationRetrieval()
 
