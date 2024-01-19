@@ -13,10 +13,14 @@ from scipy.spatial.distance import cosine
 from gensim.models import Word2Vec
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
 nltk.download('punkt')
+import gdown
+import pickle
+import os
+from pathlib import Path
 
 # Download NLTK stopwords data (if not already downloaded)
 nltk.download('stopwords')
-from pathlib import Path
+
 
 # Get the directory where the script is located
 script_directory = Path(__file__).parent
@@ -47,10 +51,29 @@ def preprocess(text):
     return ' '.join(tokens)
 
 
+# Define the destination path to save the downloaded model
+model_destination = 'svm_model.pkl'
+
+# Check if the model file exists, if not, download it
+if not os.path.isfile(model_destination):
+    #st.warning("Downloading the model... Please wait.")
+    
+    # Define the Google Drive file ID from the shared link
+    file_id = '1LcWN7mxs4KhMbebuj64Qz64Umaz4lYL2'
+    
+    # Generate a shareable link
+    shareable_link = f"https://drive.google.com/uc?id={file_id}"
+    
+    # Download the model using the shareable link
+    gdown.download(shareable_link, model_destination, quiet=False)
+
+    #st.success("Model downloaded successfully.")
 
 # Load the model from the file
-#with open('svm_model.pkl', 'rb') as model_file:
-    #loaded_model = pickle.load(model_file)
+with open(model_destination, 'rb') as model_file:
+    loaded_model = pickle.load(model_file)
+
+
 
 df = load_csv('preprocess_df.csv')
 
@@ -315,7 +338,6 @@ def summary_and_explanation():
             st.markdown(f'<p style="text-align: center;">{row["Review"]}</p><hr>', unsafe_allow_html=True)
 
 
-"""
 def Prediction():
     # Streamlit App
     st.title("Prediction using Sentiment Analysis")
@@ -346,7 +368,7 @@ def Prediction():
 
             # Display accuracy of the SVM model 
             st.write(f"Score : {probability:.2f}")
-"""
+
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
     model = Word2Vec.load("word2vec.model")
@@ -427,8 +449,8 @@ def InformationRetrieval():
 # Call the corresponding function based on the selected term
 if selected_term == "Summary & Explanation":
     summary_and_explanation()
-#elif selected_term == "Prediction":
-    #Prediction()
+elif selected_term == "Prediction":
+    Prediction()
 elif selected_term == "Information Retrieval":
     InformationRetrieval()
 
