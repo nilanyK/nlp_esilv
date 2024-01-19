@@ -11,6 +11,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from numpy import mean, zeros
 from scipy.spatial.distance import cosine
 from gensim.models import Word2Vec
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+from matplotlib.pyplot import *
+from sklearn.svm import SVC
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
 nltk.download('punkt')
 
@@ -38,17 +42,41 @@ def preprocess(text):
 
 
 
-# Load the model from the file
-with open('svm_model.pkl', 'rb') as model_file:
-    loaded_model = pickle.load(model_file)
-
 df = pd.read_csv('preprocess_df.csv', sep=',')
 
 # Remove rows with NaN values in the 'Processed_Review' column
 df = df.dropna(subset=['Processed_Review'])
 
 # Fit the TF-IDF vectorizer
-tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
+X = tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
+
+def map_sentiments(sentiment):
+    if sentiment == 'Positive':
+        return 1
+    else:  # This covers both 'Negative' and 'Neutral'
+        return 0
+
+# Apply the function to the 'Sentiment' column
+y = df['Sentiment'].apply(map_sentiments)
+
+# For example, to match the number of samples in the positive class:
+target_negative_count = y.value_counts()[1]  # number of samples in the positive class
+
+# Define the sampling strategy
+sampling_strategy = {0: target_negative_count}  # 0 corresponds to the 'Negative' class
+
+# Apply SMOTE
+smote = SMOTE(sampling_strategy=sampling_strategy)
+X, y = smote.fit_resample(X, y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create an SVM model with probability estimation enabled
+svm_model = SVC(probability=True)
+
+# Train the model with your data
+svm_model.fit(X_train, y_train)
+y_pred = svm_model.predict(X_test)
 
 # Set the page layout to wide
 st.set_page_config(layout="wide")
@@ -310,10 +338,10 @@ def Prediction():
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
 
             # Predict the sentiment
-            sentiment = loaded_model.predict(vectorized_review)[0]
+            sentiment = svm_model.predict(vectorized_review)[0]
 
             # Predict the probabilities
-            probabilities = loaded_model.predict_proba(vectorized_review)[0]
+            probabilities = svm_model.predict_proba(vectorized_review)[0]
 
             # Extracting the probability of the predicted class
             probability = max(probabilities)
