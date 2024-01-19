@@ -187,14 +187,19 @@ restaurants_to_drop = [
 
 data = data[~data['Restaurant'].isin(restaurants_to_drop)]
 
+from PIL import Image
+
 # Get the directory where the script is located
 script_directory = Path(__file__).parent
 
 # Construct the full path for the image file
 image_file_path = script_directory / 'image_restaurant.jpg'
 
-# Now display the image in Streamlit using the full path
-st.image(image_file_path, use_column_width=True)
+# Load the image into a PIL Image object
+image = Image.open(image_file_path)
+
+# Now display the image in Streamlit using the PIL Image object
+st.image(image, use_column_width=True)
 
 # Sidebar with terms 
 selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "RAG", "QA"])
