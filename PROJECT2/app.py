@@ -370,8 +370,11 @@ def Prediction():
             st.write(f"Score : {probability:.2f}")
 
 def semantic_search(query, documents, top_n=10):
+    # Construct the full path for the word2vec model file
+    word2vec_model_path = script_directory / 'word2vec.model'
+    # Load the model from the file using the full path
+    model = Word2Vec.load(str(word2vec_model_path))
     # Tokenize documents
-    model = Word2Vec.load("word2vec.model")
     tokenized_documents = [word_tokenize(doc.lower()) for doc in documents]
     flattened_docs = [word for doc in tokenized_documents for word in doc if word in model.wv]
 
