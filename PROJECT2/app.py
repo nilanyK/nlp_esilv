@@ -214,7 +214,7 @@ restaurants_to_drop = [
 
 data = data[~data['Restaurant'].isin(restaurants_to_drop)]
 # Initialize the question-answering pipeline
-qa_pipeline = pipeline("question-answering")
+qa_pipeline = pipeline("question-answering",  model="distilbert-base-cased-distilled-squad")
 
 def get_concatenated_reviews(data):
     concatenated_reviews = {}
