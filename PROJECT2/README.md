@@ -7,6 +7,16 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
 
 <br>
 <h1 align="center">Data Exploration and NLP Modeling</h1>
+<br>
+<br>
+<div style="text-align:center;">
+    <span style="display:inline-block; margin-right: 20px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Trustpilot_logo.png" alt="Trustpilot Logo" width="100"/>
+    </span>
+    <span style="display:inline-block;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Yelp_Logo.svg" alt="Yelp Logo" width="100"/>
+    </span>
+</div>
 
 
 ### Introduction
