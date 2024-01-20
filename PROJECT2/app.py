@@ -240,7 +240,7 @@ image = Image.open(image_file_path)
 st.image(image, use_column_width=True)
 
 # Sidebar with terms 
-selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "QA","RAG"])
+selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "QA"])
 
 def display_review_with_stars(rating, num_reviews=None):
     # Round the rating to two decimal places
