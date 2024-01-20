@@ -1,7 +1,8 @@
 ESILV - Machine Learning for NLP - Project 2024 <br>
 [KARUNATHASAN Nilany](https://www.linkedin.com/in/nilany-karunathasan-7b49691ba/) <br>
 [SAMBATH Sïndoumady](https://www.linkedin.com/in/s%C3%AFndoumady-sambath-a7519a209/) <br>
-[Link to Colab Notebook](https://colab.research.google.com/drive/1nU0mSg2O-pSoDkhC_ZOivF4t9D-RvgNg?usp=sharing)<br>
+[![Colab Notebook](https://commons.wikimedia.org/wiki/File:Google_Colaboratory_SVG_Logo.svg)](https://colab.research.google.com/drive/1nU0mSg2O-pSoDkhC_ZOivF4t9D-RvgNg?usp=sharing)<br>
+
 
 <br>
 <h1 align="center">Data Exploration and NLP Modeling</h1>
