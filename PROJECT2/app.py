@@ -14,13 +14,13 @@ from gensim.models import Word2Vec
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
 nltk.download('punkt')
 import gdown
-import pickle
-import os
-from pathlib import Path
+from transformers import pipeline
+
+
 
 # Download NLTK stopwords data (if not already downloaded)
 nltk.download('stopwords')
-
+from pathlib import Path
 
 # Get the directory where the script is located
 script_directory = Path(__file__).parent
@@ -51,6 +51,8 @@ def preprocess(text):
     return ' '.join(tokens)
 
 
+import pickle
+import os
 # Define the destination path to save the downloaded model
 model_destination = 'svm_model.pkl'
 
@@ -73,7 +75,9 @@ if not os.path.isfile(model_destination):
 with open(model_destination, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
 
-
+# Load the model from the file
+#with open('svm_model.pkl', 'rb') as model_file:
+    #loaded_model = pickle.load(model_file)
 
 df = load_csv('preprocess_df.csv')
 
@@ -209,6 +213,17 @@ restaurants_to_drop = [
 ]
 
 data = data[~data['Restaurant'].isin(restaurants_to_drop)]
+# Initialize the question-answering pipeline
+qa_pipeline = pipeline("question-answering")
+
+def get_concatenated_reviews(data):
+    concatenated_reviews = {}
+    for restaurant in data['Restaurant'].unique():
+        concatenated_reviews[restaurant] = ' '.join(data[data['Restaurant'] == restaurant]['Review'].tolist())
+    return concatenated_reviews
+
+# Usage in your main app
+concatenated_reviews = get_concatenated_reviews(data)
 
 from PIL import Image
 
@@ -225,7 +240,7 @@ image = Image.open(image_file_path)
 st.image(image, use_column_width=True)
 
 # Sidebar with terms 
-selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "RAG", "QA"])
+selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "QA","RAG"])
 
 def display_review_with_stars(rating, num_reviews=None):
     # Round the rating to two decimal places
@@ -370,11 +385,8 @@ def Prediction():
             st.write(f"Score : {probability:.2f}")
 
 def semantic_search(query, documents, top_n=10):
-    # Construct the full path for the word2vec model file
-    word2vec_model_path = script_directory / 'word2vec.model'
-    # Load the model from the file using the full path
-    model = Word2Vec.load(str(word2vec_model_path))
     # Tokenize documents
+    model = Word2Vec.load("word2vec.model")
     tokenized_documents = [word_tokenize(doc.lower()) for doc in documents]
     flattened_docs = [word for doc in tokenized_documents for word in doc if word in model.wv]
 
@@ -449,6 +461,132 @@ def InformationRetrieval():
                 st.markdown(f'<p style="text-align: center;">{highlight_text(review, user_input.split())}</p><hr>', unsafe_allow_html=True)
 
 
+# Function to display conversation
+def display_conversation(conversation):
+    for exchange in conversation:
+        st.text_area("You", value=exchange['question'], height=40, disabled=True, key=f"q{exchange['id']}")
+        st.text_area("Assistant", value=exchange['answer'], height=60, disabled=True, key=f"a{exchange['id']}")
+
+def clear_input():
+    # Clear the input box by setting the value to an empty string
+    st.session_state.question = ""
+
+def QASystem():
+    st.title("Chat with Our Restaurant Assistant")
+
+    # Chat bubble styling with labels on opposite sides
+    chat_bubble_css = """
+    <style>
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .chat-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin: 5px 10px;
+            display: inline-block;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .user-bubble {
+            background-color: #e6e6ea;
+            align-self: flex-end;
+        }
+        .assistant-bubble {
+            background-color: #0084ff;
+            color: white;
+            align-self: flex-start;
+        }
+        .label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            color: #7c7c7c;
+        }
+        .user-label {
+            align-self: flex-end;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .assistant-label {
+            align-self: flex-start;
+            text-align: left;
+            padding-left: 10px;
+        }
+    </style>
+    """
+
+    # Apply the chat bubble styling
+    st.markdown(chat_bubble_css, unsafe_allow_html=True)
+
+    # Initialize conversation state
+    if 'conversation' not in st.session_state:
+        st.session_state.conversation = []
+
+    # Display conversation history with chat bubbles
+    for exchange in st.session_state.conversation:
+        st.markdown(
+            f'<div class="chat-container">'
+            f'    <div class="label user-label">You</div>'
+            f'    <div class="chat-bubble user-bubble">{exchange["question"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            f'<div class="chat-container">'
+            f'    <div class="label assistant-label">Assistant</div>'
+            f'    <div class="chat-bubble assistant-bubble">{exchange["answer"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+    
+
+    # Static placeholder for the input field
+    placeholder_text = (
+            "Ask a question about any restaurant... (e.g., Give me the name of a good sushi restaurant, "
+            "How is the food at Ayakosushi ?, Give me the name of a good French restaurant, "
+            "What can I eat at Les Antiquaires ?...)"
+        )
+
+
+    # Input for new question with static placeholder
+    question = st.text_input(placeholder_text, key="question_input")
+
+    # Handling the question input
+    if st.button("Send"):
+        if question:
+            # Create a dictionary to map reviews back to their restaurants
+            review_to_restaurant = {row['Review']: row['Restaurant'] for _, row in data.iterrows()}
+
+            # Get all reviews
+            reviews = data['Review'].tolist()
+
+            # Perform semantic search to find relevant reviews
+            relevant_reviews = semantic_search(question, reviews, top_n=10)
+
+            # Concatenate relevant reviews with their corresponding restaurant names
+            relevant_reviews_text = ' '.join([f"{review_to_restaurant[review]}: {review}" for review, _ in relevant_reviews])
+
+            # Get the answer from the QA pipeline
+            answer = qa_pipeline({'question': question, 'context': relevant_reviews_text})
+
+            # Add the exchange to the conversation history
+            st.session_state.conversation.append({
+                'question': question,
+                'answer': answer['answer']  # The answer obtained from the QA pipeline
+            })
+
+            # Clear the input box after sending the message
+            clear_input()
+
+            # Rerun the app to update the conversation display
+            st.experimental_rerun()
+        else:
+            st.write("Please ask a question.")
+
 # Call the corresponding function based on the selected term
 if selected_term == "Summary & Explanation":
     summary_and_explanation()
@@ -456,5 +594,7 @@ elif selected_term == "Prediction":
     Prediction()
 elif selected_term == "Information Retrieval":
     InformationRetrieval()
+elif selected_term == "QA":
+    QASystem()
 
 
