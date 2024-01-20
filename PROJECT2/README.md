@@ -13,10 +13,11 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
     <span style="display:inline-block; margin-right: 20px;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Trustpilot_logo.png" alt="Trustpilot Logo" width="100"/>
     </span>
-    <span style="display:inline-block;">
+    <span style="display:inline-block; margin-right: 20px;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Yelp_Logo.svg" alt="Yelp Logo" width="100"/>
     </span>
 </div>
+
 
 
 ### Introduction
