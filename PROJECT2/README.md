@@ -20,36 +20,32 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
 
 
 
-### Introduction
+### Overview
 This repository contains all files related to the first project of the course Machine Learning for NLP. This project focuses on enhancing information retrieval on the NFCorpus dataset, a collection of medical abstracts from PubMed publications. The primary goal was to beat the performance of the baseline BM25 model. We also developped a custom TF-IDF based retrieval system and a Streamlit app to provide an interactive interface for users to retrieve relevant documents.
  
+## Table of Contents
+- [Files](#files)
+- [Installation](#installation)
+- [Features](#features)
+- [Data Collection and Preparation](#data-collection-and-preparation)
+- [NLP Techniques and Models](#nlp-techniques-and-models)
+- [Streamlit Application](#streamlit-application)
+- [Contributors](#contributors)
+- [Acknowledgments](#acknowledgments)
+- [License](#license)
+  
+## Files
 
-### Files
+The project repository contains the following main files :
 
-The project repository contains the following files :
+- **NLP_PROJECT2_KARUNATHASAN_SAMBATH.ipynb** : A Jupyter Notebook containing all the code generated for the project. (also accessible via the colab link)
 
-- **NLP_PROJECT1_KARUNATHASAN_SAMBATH.ipynb** : A Jupyter Notebook containing the code for the project. It includes the implementation of the custom TF-IDF retrieval system and the analysis of the results.
-
-- **app.py** : The Python script for the Streamlit app, which allows users to interact with the custom retrieval system.
-
-- **dev.2-1-0.qrel** : Data file containing relevance scores for queries and documents.
-
-- **dev.all.queries** : Data file with queries related to PubMed articles.
-
-- **dev.docs** : Data file containing abstracts of medical publications from PubMed.
-
-- **loadNFCorpus.py** : Python script for loading NFCorpus data and performing text preprocessing.
-
-- **requirements.txt** : A list of required Python packages and dependencies for the project.
+- **app.py** : The Python script for the Streamlit app, which allows users to explore data insights, view sentiment analysis results, and interact with the QA system.
 
 
-### How to Use
-
-1. **Custom TF-IDF Retrieval**
-   - Open the Jupyter Notebook (`NLP_PROJECT1_KARUNATHASAN_SAMBATH.ipynb`) to explore the code.
-   - Run the code to analyze the performance of the custom TF-IDF retrieval system on the NFCorpus dataset.
-
-2. **Streamlit App** <br>
+### Installation
+Our interactive application allows users to explore data insights, view sentiment analysis results, and interact with the QA system. <br>
+**Streamlit App** <br>
      **• Public Access** <br>
        You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
      **• Local Access** <br>
@@ -59,18 +55,15 @@ The project repository contains the following files :
        ```
      - Change to the project directory:
        ```bash
-       cd PROJECT1
+       cd PROJECT2
        ```
      - Run the Streamlit app by executing `app.py` :
        ```python
        streamlit run app.py
        ```
      - The output will display the link on which the server is running.  Click on it if it doesn't directly open the link.
-     - Enter your query and choose the number of documents to consider.
-     - Click the "Retrieve Top Documents" button to initiate the retrieval process and view the top documents. <br>
+   <br>
    <br>
 
-### Colab Notebook
 
-You can find the Colab Notebook for this project [here](https://colab.research.google.com/drive/1nU0mSg2O-pSoDkhC_ZOivF4t9D-RvgNg?usp=sharing)
 
