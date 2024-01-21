@@ -282,7 +282,7 @@ def highlight_text(text, terms):
 # Function for "Summary & Explanation"
 def summary_and_explanation():
     # Streamlit App
-    st.title("Summary & Explanation")
+    st.title("Summary")
     # Select Restaurant
     selected_restaurant = st.selectbox("Select a Restaurant", data['Restaurant'].unique())
     # Display Restaurant Data
