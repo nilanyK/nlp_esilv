@@ -368,8 +368,6 @@ import re
 
 def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, review_text):
     st.subheader("Explanation")
-    
-
     # Assuming you have a logistic regression model for sentiment analysis
     # and a TF-IDF vectorizer
     feature_names = tfidf_vectorizer.get_feature_names_out()
@@ -377,7 +375,7 @@ def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vecto
 
     # Create a DataFrame for feature importance
     feature_importance = pd.DataFrame({'feature': feature_names, 'importance': coef})
-    feature_importance = feature_importance.sort_values(by='importance', ascending=False)
+    feature_importance = feature_importance.sort_values(by='importance', ascending=False).reset_index(drop=True)
     # Highlighting terms in the review
     st.write("Review text with highlighted influential terms:")
     def highlight_text(text, terms):
