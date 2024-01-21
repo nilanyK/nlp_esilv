@@ -75,6 +75,12 @@ if not os.path.isfile(model_destination):
 with open(model_destination, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
 
+script_directory = Path(__file__).parent
+# Construct the full path for the word2vec model file
+rating_model_path = script_directory / 'rating_model.h5'
+    
+# Load the model from the file using the full path
+rating_model = load_model(str(rating_model_path))
 
 script_directory = Path(__file__).parent
 tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer_rating.pkl'
