@@ -12,6 +12,7 @@ from numpy import mean, zeros
 from scipy.spatial.distance import cosine
 from gensim.models import Word2Vec
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
+tfidf_vectorizer_rating = TfidfVectorizer(max_features=10000)
 nltk.download('punkt')
 import gdown
 from transformers import pipeline
@@ -370,7 +371,7 @@ def Prediction():
           
             processed_review = preprocess(user_input)
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
-            vectorized_review_rating = tfidf_vectorizer.transform([user_input]).toarray()
+            vectorized_review_rating = tfidf_vectorizer_rating.transform([user_input]).toarray()
             # Predict the sentiment
             sentiment = loaded_model.predict(vectorized_review)[0]
 
