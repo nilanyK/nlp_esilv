@@ -364,7 +364,7 @@ def stars_html_prediction(rating):
     # Wrap the stars in a span tag with a style attribute for gold color
     return f'<span style="color: gold;">{stars}</span>'
     
-def explain_feature_importance(sentiment_model, tfidf_vectorizer):
+def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, review_text):
     st.subheader("Feature Importance in Sentiment Analysis")
     st.write("The following words are most influential in determining the sentiment of a review:")
 
@@ -383,6 +383,25 @@ def explain_feature_importance(sentiment_model, tfidf_vectorizer):
 
     st.write("Top negative features:")
     st.table(feature_importance.tail(10))
+
+    # Highlighting terms in the review
+    st.subheader("Review Analysis")
+    st.write("Review text with highlighted influential terms:")
+
+    def highlight_terms(text, terms):
+        for term in terms:
+            text = text.replace(term, f"**{term}**")
+        return text
+
+    # Identify terms in the review
+    review_terms = set(review_text.split())
+    influential_terms = set(feature_importance['feature'])
+    terms_to_highlight = review_terms.intersection(influential_terms)
+
+    # Highlight terms in the review
+    highlighted_review = highlight_terms(review_text, terms_to_highlight)
+    st.markdown(highlighted_review)
+
 
 
 def Prediction():
@@ -407,7 +426,7 @@ def Prediction():
 
             # Printing the results
             st.write("Predicted Sentiment :",sentiment_label)
-            explain_feature_importance(sentiment_model,tfidf_vectorizer)
+            explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, user_input)
  
             # Predict the rating
             rating_prediction = rating_model.predict(vectorized_review_rating)
