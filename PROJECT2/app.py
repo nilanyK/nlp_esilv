@@ -364,9 +364,11 @@ def stars_html_prediction(rating):
     # Wrap the stars in a span tag with a style attribute for gold color
     return f'<span style="color: gold;">{stars}</span>'
     
+import re
+
 def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, review_text):
-    st.subheader("Feature Importance in Sentiment Analysis")
-    st.write("The following words are most influential in determining the sentiment of a review:")
+    st.subheader("Explanation")
+    
 
     # Assuming you have a logistic regression model for sentiment analysis
     # and a TF-IDF vectorizer
@@ -376,21 +378,14 @@ def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vecto
     # Create a DataFrame for feature importance
     feature_importance = pd.DataFrame({'feature': feature_names, 'importance': coef})
     feature_importance = feature_importance.sort_values(by='importance', ascending=False)
-
-    # Display top 10 positive and negative features
-    st.write("Top positive features:")
-    st.table(feature_importance.head(10))
-
-    st.write("Top negative features:")
-    st.table(feature_importance.tail(10))
-
     # Highlighting terms in the review
     st.subheader("Review Analysis")
     st.write("Review text with highlighted influential terms:")
-
-    def highlight_terms(text, terms):
+    def highlight_text(text, terms):
         for term in terms:
-            text = text.replace(term, f"**{term}**")
+            # Regular expression to match the word as a whole word, not as part of another word
+            regex = r'\b' + re.escape(term) + r'\b'
+            text = re.sub(regex, r'<span style="background-color:#FFFF00;">' + term + '</span>', text, flags=re.IGNORECASE)
         return text
 
     # Identify terms in the review
@@ -399,8 +394,19 @@ def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vecto
     terms_to_highlight = review_terms.intersection(influential_terms)
 
     # Highlight terms in the review
-    highlighted_review = highlight_terms(review_text, terms_to_highlight)
-    st.markdown(highlighted_review)
+    highlighted_review = highlight_text(review_text, terms_to_highlight)
+    st.markdown(highlighted_review, unsafe_allow_html=True)
+
+    st.subheader("Feature Importance in Sentiment Analysis")
+    st.write("The following words are most influential in determining the sentiment of a review:")
+    # Display top 10 positive and negative features
+    st.write("Top positive features :")
+    st.table(feature_importance.head(10))
+
+    st.write("Top negative features :")
+    st.table(feature_importance.tail(10))
+
+    
 
 
 
