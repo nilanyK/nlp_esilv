@@ -367,7 +367,7 @@ def stars_html_prediction(rating):
 
 def Prediction():
     # Streamlit App
-    st.title("Prediction using Sentiment Analysis")
+    st.title("Prediction")
     # Select Restaurant
     # Input text box for user reviews
     user_input = st.text_area("Enter a review :")
@@ -386,7 +386,7 @@ def Prediction():
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
 
             # Printing the results
-            st.write("Sentiment :",sentiment_label)
+            st.write("Predicted Sentiment :",sentiment_label)
 
  
             # Predict the rating
