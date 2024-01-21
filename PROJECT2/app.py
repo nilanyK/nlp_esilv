@@ -52,29 +52,12 @@ def preprocess(text):
     return ' '.join(tokens)
 
 
-import pickle
-import os
-# Define the destination path to save the downloaded model
-model_destination = 'best_model_sentiment_analysis.pkl'
+script_directory = Path(__file__).parent
+sentiment_analysis_path = script_directory / 'sentiment_analysis_model.pkl'
 
-# Check if the model file exists, if not, download it
-if not os.path.isfile(model_destination):
-    #st.warning("Downloading the model... Please wait.")
-    
-    # Define the Google Drive file ID from the shared link
-    file_id = '1lXL3SQ0xtGwJ64EeDJ0fgSjgDulcCDJy'
-    
-    # Generate a shareable link
-    shareable_link = f"https://drive.google.com/uc?id={file_id}"
-    
-    # Download the model using the shareable link
-    gdown.download(shareable_link, model_destination, quiet=False)
-
-    #st.success("Model downloaded successfully.")
-
-# Load the model from the file
-with open(model_destination, 'rb') as model_file:
-    loaded_model = pickle.load(model_file)
+# Open the file and load the model
+with open(sentiment_analysis_path, 'rb') as file:
+    sentiment_model = pickle.load(file)
 
 script_directory = Path(__file__).parent
 # Construct the full path for the word2vec model file
@@ -386,7 +369,7 @@ def Prediction():
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
             vectorized_review_rating = tfidf_vectorizer_rating.transform([user_input]).toarray()
             # Predict the sentiment
-            sentiment = loaded_model.predict(vectorized_review)[0]
+            sentiment = sentiment_model.predict(vectorized_review)[0]
 
             
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
