@@ -10,3 +10,4 @@ pickleshare==0.7.5
 gdown==4.7.3
 transformers==4.36.2
 torch==2.1.2
+keras==2.14.0
