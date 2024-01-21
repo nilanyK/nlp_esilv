@@ -17,7 +17,6 @@ from transformers import pipeline
 import keras
 from keras.models import load_model
 tfidf_vectorizer = TfidfVectorizer(max_features=5000)
-tfidf_vectorizer_rating = TfidfVectorizer(max_features=10000)
 
 # Download NLTK stopwords data (if not already downloaded)
 nltk.download('stopwords')
@@ -78,10 +77,10 @@ with open(model_destination, 'rb') as model_file:
 
 script_directory = Path(__file__).parent
 # Construct the full path for the word2vec model file
-rating_model_path = script_directory / 'rating_model.h5'
+tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer.pkl'
     
 # Load the model from the file using the full path
-rating_model = load_model(str(rating_model_path))
+tfidf_vectorizer_rating =  pickle.load(str(tfidf_vectorizer_path))
 
 df = load_csv('preprocess_df.csv')
 
@@ -90,7 +89,7 @@ df = df.dropna(subset=['Processed_Review'])
 
 # Fit the TF-IDF vectorizer
 tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
-tfidf_vectorizer_rating.fit_transform(df['Review']).toarray()
+
 # Set the page layout to wide
 st.set_page_config(layout="wide")
 
