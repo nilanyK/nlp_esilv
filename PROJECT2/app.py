@@ -55,14 +55,14 @@ def preprocess(text):
 import pickle
 import os
 # Define the destination path to save the downloaded model
-model_destination = 'svm_model.pkl'
+model_destination = 'best_model_sentiment_analysis.pkl'
 
 # Check if the model file exists, if not, download it
 if not os.path.isfile(model_destination):
     #st.warning("Downloading the model... Please wait.")
     
     # Define the Google Drive file ID from the shared link
-    file_id = '1LcWN7mxs4KhMbebuj64Qz64Umaz4lYL2'
+    file_id = '1lXL3SQ0xtGwJ64EeDJ0fgSjgDulcCDJy'
     
     # Generate a shareable link
     shareable_link = f"https://drive.google.com/uc?id={file_id}"
