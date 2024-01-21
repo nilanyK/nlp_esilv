@@ -41,6 +41,7 @@ The project repository contains the following main files :
 
 ### Installation
 Our interactive application allows users to explore data insights, view sentiment analysis results, and interact with the QA system. <br>
+<br>
 **Streamlit App** <br>
      **• Public Access** <br>
        You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
