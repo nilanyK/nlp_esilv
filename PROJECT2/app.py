@@ -16,7 +16,7 @@ nltk.download('punkt')
 import gdown
 from transformers import pipeline
 import keras
-
+from keras.models import load_model
 
 
 # Download NLTK stopwords data (if not already downloaded)
@@ -55,10 +55,10 @@ def preprocess(text):
 import pickle
 import os
 # Define the destination path to save the downloaded model
-model_destination_svm = 'svm_model.pkl'
-model_destination_rating = 'rating_model.pkl'
+model_destination = 'svm_model.pkl'
+
 # Check if the model file exists, if not, download it
-if not os.path.isfile(model_destination_svm):
+if not os.path.isfile(model_destination):
     #st.warning("Downloading the model... Please wait.")
     
     # Define the Google Drive file ID from the shared link
@@ -68,36 +68,20 @@ if not os.path.isfile(model_destination_svm):
     shareable_link = f"https://drive.google.com/uc?id={file_id}"
     
     # Download the model using the shareable link
-    gdown.download(shareable_link, model_destination_svm, quiet=False)
+    gdown.download(shareable_link, model_destination, quiet=False)
 
     #st.success("Model downloaded successfully.")
 
 # Load the model from the file
-with open(model_destination_svm, 'rb') as model_file:
+with open(model_destination, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
 
-# Check if the model file exists, if not, download it
-if not os.path.isfile(model_destination_rating):
-    #st.warning("Downloading the model... Please wait.")
+script_directory = Path(__file__).parent
+# Construct the full path for the word2vec model file
+rating_model_path = script_directory / 'rating_model.h5'
     
-    # Define the Google Drive file ID from the shared link
-    file_id = '1Mhb0fK2v6JPqJM9_OsJWTX4zIuI8afBv'
-    
-    # Generate a shareable link
-    shareable_link = f"https://drive.google.com/uc?id={file_id}"
-    
-    # Download the model using the shareable link
-    gdown.download(shareable_link, model_destination_rating, quiet=False)
-
-    #st.success("Model downloaded successfully.")
-
-# Load the model from the file
-with open(model_destination_rating, 'rb') as model_file:
-    loaded_model_rating = pickle.load(model_file)
-
-# Load the model from the file
-#with open('svm_model.pkl', 'rb') as model_file:
-    #loaded_model = pickle.load(model_file)
+# Load the model from the file using the full path
+rating_model = load_model(str(rating_model_path))
 
 df = load_csv('preprocess_df.csv')
 
@@ -386,7 +370,7 @@ def Prediction():
           
             processed_review = preprocess(user_input)
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
-
+            vectorized_review_rating = tfidf_vectorizer.transform([user_input]).toarray()
             # Predict the sentiment
             sentiment = loaded_model.predict(vectorized_review)[0]
 
@@ -399,13 +383,15 @@ def Prediction():
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
 
             # Printing the results
-            st.write("Sentiment:",sentiment_label)
+            st.write("Sentiment :",sentiment_label)
 
             # Display accuracy of the SVM model 
             st.write(f"Score : {probability:.2f}")
             # Predict the rating
-            rating_prediction = loaded_model_rating.predict(vectorized_review)[0]  # Adjust this line based on how your model expects input
-            st.write("Predicted Rating:", rating_prediction)
+            rating_prediction = rating_model.predict(vectorized_review_rating)
+            predicted_rating = encoder.inverse_transform(rating_prediction)
+            # Adjust this line based on how your model expects input
+            st.write("Predicted Rating :", predicted_rating[0])
 
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
