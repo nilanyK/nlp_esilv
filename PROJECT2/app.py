@@ -16,8 +16,8 @@ import gdown
 from transformers import pipeline
 import keras
 from keras.models import load_model
-#tfidf_vectorizer = TfidfVectorizer(max_features=5000)
-tfidf_vectorizer = TfidfVectorizer(max_features=10000)
+tfidf_vectorizer = TfidfVectorizer(max_features=5000)
+tfidf_vectorizer_rating = TfidfVectorizer(max_features=10000)
 
 # Download NLTK stopwords data (if not already downloaded)
 nltk.download('stopwords')
@@ -90,7 +90,7 @@ df = df.dropna(subset=['Processed_Review'])
 
 # Fit the TF-IDF vectorizer
 tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
-
+tfidf_vectorizer_rating.fit_transform(df['Review']).toarray()
 # Set the page layout to wide
 st.set_page_config(layout="wide")
 
@@ -371,7 +371,7 @@ def Prediction():
           
             processed_review = preprocess(user_input)
             vectorized_review = tfidf_vectorizer.transform([processed_review]).toarray()
-            vectorized_review_rating = tfidf_vectorizer.transform([user_input]).toarray()
+            vectorized_review_rating = tfidf_vectorizer_rating.transform([user_input]).toarray()
             # Predict the sentiment
             sentiment = loaded_model.predict(vectorized_review)[0]
 
