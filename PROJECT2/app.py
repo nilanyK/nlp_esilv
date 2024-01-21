@@ -388,19 +388,13 @@ def Prediction():
             # Predict the sentiment
             sentiment = loaded_model.predict(vectorized_review)[0]
 
-            # Predict the probabilities
-            probabilities = loaded_model.predict_proba(vectorized_review)[0]
-
-            # Extracting the probability of the predicted class
-            probability = max(probabilities)
-
+            
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
 
             # Printing the results
             st.write("Sentiment :",sentiment_label)
 
-            # Display accuracy of the SVM model 
-            st.write(f"Score : {probability:.2f}")
+ 
             # Predict the rating
             rating_prediction = rating_model.predict(vectorized_review_rating)
             predicted_rating = encoder.inverse_transform(rating_prediction)
