@@ -240,7 +240,7 @@ image = Image.open(image_file_path)
 st.image(image, use_column_width=True)
 
 # Sidebar with terms 
-selected_term = st.sidebar.radio("Choose a feature", ["Summary & Explanation","Prediction", "Information Retrieval", "QA"])
+selected_term = st.sidebar.radio("Choose a feature", ["Summary","Prediction & Explanation", "Information Retrieval", "QA"])
 
 def display_review_with_stars(rating, num_reviews=None):
     # Round the rating to two decimal places
@@ -650,9 +650,9 @@ def QASystem():
             st.write("Please ask a question.")
 
 # Call the corresponding function based on the selected term
-if selected_term == "Summary & Explanation":
+if selected_term == "Summary":
     summary_and_explanation()
-elif selected_term == "Prediction":
+elif selected_term == "Prediction & Explanation":
     Prediction()
 elif selected_term == "Information Retrieval":
     InformationRetrieval()
