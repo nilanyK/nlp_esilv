@@ -357,14 +357,13 @@ def summary_and_explanation():
             st.markdown(f'<p style="text-align: center;">{row["Review"]}</p><hr>', unsafe_allow_html=True)
 
 def stars_html_prediction(rating):
-    # Determine the number of full stars
     full_stars = int(rating)
-    # Determine if there is a half star
     half_star = '★' if rating % 1 >= 0.5 else ''
-    # Determine the number of empty stars
     empty_stars = '☆' * (5 - full_stars - (1 if half_star else 0))
-    # Combine full stars, half star, and empty stars
-    return '★' * full_stars + half_star + empty_stars
+    stars = '★' * full_stars + half_star + empty_stars
+    # Wrap the stars in a span tag with a style attribute for gold color
+    return f'<span style="color: gold;">{stars}</span>'
+
 
 def Prediction():
     # Streamlit App
