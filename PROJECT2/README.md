@@ -46,12 +46,12 @@ Our interactive application allows users to explore data insights, view sentimen
        You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
      **• Local Access** <br>
      - Clone this GitHub repository to your local machine using the following command: 
-       ```bash
+       ```
        git clone https://github.com/nilanyK/nlp_esilv.git
        ```
        <br>
      - Change to the project directory: 
-       ```bash
+       ```
        cd PROJECT2
        ```
        <br>
@@ -64,13 +64,25 @@ Our interactive application allows users to explore data insights, view sentimen
    <br>
    <br>
 
-### Features
-- Summary :
-- Topic Modeling: Extract common themes and topics from review data.
-- Sentiment Analysis & Explanation :  Analyze the sentiment of restaurant reviews to understand customer opinions.
-- Rating Prediction :
-- Information Retrieval : Search reviews by specific search terms
-- QA System: A chatbot for answering user queries based on the review dataset.
+## Features
+- **Summary**:
+  - Diplay concise summaries of restaurant reviews, providing quick insights into the overall customer feedback.
+
+- **Topic Modeling**:
+  - Extract common themes and topics from review data, offering a deeper understanding of what aspects customers frequently discuss.
+
+- **Sentiment Analysis & Explanation**:
+  - Analyze the sentiment of restaurant reviews to understand customer opinions. This feature helps identify general sentiment trends such as positivity, negativity, or neutrality within the reviews.
+
+- **Rating Prediction**:
+  - Utilize deep learning models to predict the star ratings of reviews based on their content, aiding in the understanding of customer satisfaction levels.
+
+- **Information Retrieval**:
+  - Search reviews by specific search terms, enabling users to find detailed opinions and experiences related to particular aspects of a restaurant.
+
+- **QA System**:
+  - A chatbot for answering user queries based on the review dataset. This interactive tool uses NLP to understand and respond to user inquiries, providing personalized recommendations and insights.
+
 
 ### Data Collection and Preparation
 Data was scraped from Trustpilot and Yelp. Rigorous data cleaning and preparation were performed to ensure the quality and consistency of the dataset.
