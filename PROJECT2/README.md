@@ -65,22 +65,22 @@ Our interactive application allows users to explore data insights, view sentimen
    <br>
 
 ## Features
-- **Summary**:
+- **Summary** :
   - Diplay concise summaries of restaurant reviews, providing quick insights into the overall customer feedback.
 
-- **Topic Modeling**:
+- **Topic Modeling (Read reviews that mention...)** :
   - Extract common themes and topics from review data, offering a deeper understanding of what aspects customers frequently discuss.
 
-- **Sentiment Analysis & Explanation**:
+- **Sentiment Analysis & Explanation** :
   - Analyze the sentiment of restaurant reviews to understand customer opinions. This feature helps identify general sentiment trends such as positivity, negativity, or neutrality within the reviews.
 
-- **Rating Prediction**:
+- **Rating Prediction** :
   - Utilize deep learning models to predict the star ratings of reviews based on their content, aiding in the understanding of customer satisfaction levels.
 
-- **Information Retrieval**:
+- **Information Retrieval** :
   - Search reviews by specific search terms, enabling users to find detailed opinions and experiences related to particular aspects of a restaurant.
 
-- **QA System**:
+- **QA System** :
   - A chatbot for answering user queries based on the review dataset. This interactive tool uses NLP to understand and respond to user inquiries, providing personalized recommendations and insights.
 
 
