@@ -57,7 +57,7 @@ import os
 model_destination_svm = 'svm_model.pkl'
 model_destination_rating = 'rating_model.pkl'
 # Check if the model file exists, if not, download it
-if not os.path.isfile(model_destination):
+if not os.path.isfile(model_destination_svm):
     #st.warning("Downloading the model... Please wait.")
     
     # Define the Google Drive file ID from the shared link
@@ -67,12 +67,12 @@ if not os.path.isfile(model_destination):
     shareable_link = f"https://drive.google.com/uc?id={file_id}"
     
     # Download the model using the shareable link
-    gdown.download(shareable_link, model_destination, quiet=False)
+    gdown.download(shareable_link, model_destination_svm, quiet=False)
 
     #st.success("Model downloaded successfully.")
 
 # Load the model from the file
-with open(model_destination, 'rb') as model_file:
+with open(model_destination_svm, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
 
 # Check if the model file exists, if not, download it
