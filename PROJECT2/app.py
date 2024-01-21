@@ -252,7 +252,11 @@ def display_review_with_stars(rating, num_reviews=None):
     
     # Generate the HTML for star ratings
     stars_html = '★' * full_stars + half_star + '☆' * empty_stars
-    rating_html = f'<div class="rating-number">{rating_rounded}</div>'
+    # Define the desired text color using inline CSS
+    text_color = '#333'
+    
+    # Create the rating HTML with the specified text color
+    rating_html = f'<div class="rating-number" style="color: {text_color};">{rating_rounded}</div>'
     
     # Combine the HTML for the numeric rating and stars
     combined_html = f'<div style="text-align: center;">{rating_html}<div class="star-rating">{stars_html}</div>'
