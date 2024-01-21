@@ -90,7 +90,7 @@ df = df.dropna(subset=['Processed_Review'])
 
 # Fit the TF-IDF vectorizer
 tfidf_vectorizer.fit_transform(df['Processed_Review']).toarray()
-tfidf_vectorizer_rating.fit_transform(df['Review']).toarray()
+
 # Set the page layout to wide
 st.set_page_config(layout="wide")
 
