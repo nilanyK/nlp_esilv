@@ -2,7 +2,7 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
 [KARUNATHASAN Nilany](https://www.linkedin.com/in/nilany-karunathasan-7b49691ba/) <br>
 [SAMBATH Sïndoumady](https://www.linkedin.com/in/s%C3%AFndoumady-sambath-a7519a209/) <br>
 <br>
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1jXj-WADyg9tguMBSsqKHwK6mMXkHmOqu/view?usp=sharing])<br>
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]([https://drive.google.com/file/d/1jXj-WADyg9tguMBSsqKHwK6mMXkHmOqu/view?usp=sharing](https://drive.google.com/file/d/1wefYGTtTMoAVfRXJNx4I3EHMjxUJvqMA/view?usp=sharing)])<br>
 
 
 <br>
@@ -28,11 +28,7 @@ This repository contains all files related to the first project of the course Ma
 - [Installation](#installation)
 - [Features](#features)
 - [Data Collection and Preparation](#data-collection-and-preparation)
-- [NLP Techniques and Models](#nlp-techniques-and-models)
-- [Streamlit Application](#streamlit-application)
 - [Contributors](#contributors)
-- [Acknowledgments](#acknowledgments)
-- [License](#license)
   
 ## Files
 
@@ -49,21 +45,36 @@ Our interactive application allows users to explore data insights, view sentimen
      **• Public Access** <br>
        You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
      **• Local Access** <br>
-     - Clone this GitHub repository to your local machine using the following command:
+     - Clone this GitHub repository to your local machine using the following command: 
        ```bash
        git clone https://github.com/nilanyK/nlp_esilv.git
        ```
-     - Change to the project directory:
+       <br>
+     - Change to the project directory: 
        ```bash
        cd PROJECT2
        ```
-     - Run the Streamlit app by executing `app.py` :
+       <br>
+     - Run the Streamlit app by executing `app.py` : 
        ```python
        streamlit run app.py
        ```
+       <br>
      - The output will display the link on which the server is running.  Click on it if it doesn't directly open the link.
    <br>
    <br>
 
+### Features
+- Summary :
+- Topic Modeling: Extract common themes and topics from review data.
+- Sentiment Analysis & Explanation :  Analyze the sentiment of restaurant reviews to understand customer opinions.
+- Rating Prediction :
+- Information Retrieval : Search reviews by specific search terms
+- QA System: A chatbot for answering user queries based on the review dataset.
 
+### Data Collection and Preparation
+Data was scraped from Trustpilot and Yelp. Rigorous data cleaning and preparation were performed to ensure the quality and consistency of the dataset.
 
+### Contributors
+[KARUNATHASAN Nilany](https://www.linkedin.com/in/nilany-karunathasan-7b49691ba/) <br>
+[SAMBATH Sïndoumady](https://www.linkedin.com/in/s%C3%AFndoumady-sambath-a7519a209/) <br>
