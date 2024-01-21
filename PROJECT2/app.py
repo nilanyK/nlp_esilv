@@ -379,7 +379,6 @@ def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vecto
     feature_importance = pd.DataFrame({'feature': feature_names, 'importance': coef})
     feature_importance = feature_importance.sort_values(by='importance', ascending=False)
     # Highlighting terms in the review
-    st.subheader("Review Analysis")
     st.write("Review text with highlighted influential terms:")
     def highlight_text(text, terms):
         for term in terms:
@@ -432,8 +431,7 @@ def Prediction():
 
             # Printing the results
             st.write("Predicted Sentiment :",sentiment_label)
-            explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, user_input)
- 
+    
             # Predict the rating
             rating_prediction = rating_model.predict(vectorized_review_rating)
             predicted_rating = encoder.inverse_transform(rating_prediction)
@@ -441,6 +439,7 @@ def Prediction():
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
 
             st.markdown(f"Predicted Rating : {stars_html_prediction(predicted_rating_value)}", unsafe_allow_html=True)
+            explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vectorizer, user_input)
 
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
