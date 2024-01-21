@@ -394,9 +394,7 @@ def Prediction():
             predicted_rating = encoder.inverse_transform(rating_prediction)
             predicted_rating_value = int(predicted_rating[0])
             sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
-            
-            # Printing the results with stars
-            st.write("Sentiment:", sentiment_label)
+
             st.markdown(f"Predicted Rating : {stars_html_prediction(predicted_rating_value)}", unsafe_allow_html=True)
 
 def semantic_search(query, documents, top_n=10):
