@@ -398,7 +398,7 @@ def Prediction():
             
             # Printing the results with stars
             st.write("Sentiment:", sentiment_label)
-            st.write(f"Predicted Rating : {stars_html(predicted_rating_value)}")
+            st.write(f"Predicted Rating : {stars_html_prediction(predicted_rating_value)}")
 
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
