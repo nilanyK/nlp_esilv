@@ -54,8 +54,8 @@ def preprocess(text):
 import pickle
 import os
 # Define the destination path to save the downloaded model
-model_destination = 'svm_model.pkl'
-
+model_destination_svm = 'svm_model.pkl'
+model_destination_rating = 'rating_model.pkl'
 # Check if the model file exists, if not, download it
 if not os.path.isfile(model_destination):
     #st.warning("Downloading the model... Please wait.")
@@ -74,6 +74,25 @@ if not os.path.isfile(model_destination):
 # Load the model from the file
 with open(model_destination, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
+
+# Check if the model file exists, if not, download it
+if not os.path.isfile(model_destination_rating):
+    #st.warning("Downloading the model... Please wait.")
+    
+    # Define the Google Drive file ID from the shared link
+    file_id = '1Mhb0fK2v6JPqJM9_OsJWTX4zIuI8afBv'
+    
+    # Generate a shareable link
+    shareable_link = f"https://drive.google.com/uc?id={file_id}"
+    
+    # Download the model using the shareable link
+    gdown.download(shareable_link, model_destination_rating, quiet=False)
+
+    #st.success("Model downloaded successfully.")
+
+# Load the model from the file
+with open(model_destination_rating, 'rb') as model_file:
+    loaded_model_rating = pickle.load(model_file)
 
 # Load the model from the file
 #with open('svm_model.pkl', 'rb') as model_file:
@@ -383,6 +402,9 @@ def Prediction():
 
             # Display accuracy of the SVM model 
             st.write(f"Score : {probability:.2f}")
+            # Predict the rating
+            rating_prediction = rating_model.predict(vectorized_review)[0]  # Adjust this line based on how your model expects input
+            st.write("Predicted Rating:", rating_prediction)
 
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
