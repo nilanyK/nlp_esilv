@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import OneHotEncoder
 from numpy import mean, zeros
 from scipy.spatial.distance import cosine
 from gensim.models import Word2Vec
@@ -88,6 +89,12 @@ tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer_rating.pkl'
 # Open the file and load the model
 with open(tfidf_vectorizer_path, 'rb') as file:
     tfidf_vectorizer_rating = pickle.load(file)
+
+encoder_path = script_directory / 'encoder.pkl'
+
+# Open the file and load the model
+with open(encoder_path, 'rb') as file:
+    encoder = pickle.load(file)
 
 df = load_csv('preprocess_df.csv')
 
