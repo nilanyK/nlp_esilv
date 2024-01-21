@@ -363,6 +363,26 @@ def stars_html_prediction(rating):
     stars = '★' * full_stars + half_star + empty_stars
     # Wrap the stars in a span tag with a style attribute for gold color
     return f'<span style="color: gold;">{stars}</span>'
+    
+def explain_feature_importance(sentiment_model, tfidf_vectorizer):
+    st.subheader("Feature Importance in Sentiment Analysis")
+    st.write("The following words are most influential in determining the sentiment of a review:")
+
+    # Assuming you have a logistic regression model for sentiment analysis
+    # and a TF-IDF vectorizer
+    feature_names = tfidf_vectorizer.get_feature_names_out()
+    coef = sentiment_model.coef_.flatten()
+
+    # Create a DataFrame for feature importance
+    feature_importance = pd.DataFrame({'feature': feature_names, 'importance': coef})
+    feature_importance = feature_importance.sort_values(by='importance', ascending=False)
+
+    # Display top 10 positive and negative features
+    st.write("Top positive features:")
+    st.table(feature_importance.head(10))
+
+    st.write("Top negative features:")
+    st.table(feature_importance.tail(10))
 
 
 def Prediction():
@@ -387,7 +407,7 @@ def Prediction():
 
             # Printing the results
             st.write("Predicted Sentiment :",sentiment_label)
-
+            explain_feature_importance(sentiment_model,tfidf_vectorizer)
  
             # Predict the rating
             rating_prediction = rating_model.predict(vectorized_review_rating)
