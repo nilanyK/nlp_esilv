@@ -75,12 +75,13 @@ if not os.path.isfile(model_destination):
 with open(model_destination, 'rb') as model_file:
     loaded_model = pickle.load(model_file)
 
+
 script_directory = Path(__file__).parent
-# Construct the full path for the word2vec model file
 tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer.pkl'
-    
-# Load the model from the file using the full path
-tfidf_vectorizer_rating =  pickle.load(str(tfidf_vectorizer_path))
+
+# Open the file and load the model
+with open(tfidf_vectorizer_path, 'rb') as file:
+    tfidf_vectorizer_rating = pickle.load(file)
 
 df = load_csv('preprocess_df.csv')
 
