@@ -356,7 +356,15 @@ def summary_and_explanation():
             st.markdown(review_html, unsafe_allow_html=True)
             st.markdown(f'<p style="text-align: center;">{row["Review"]}</p><hr>', unsafe_allow_html=True)
 
-
+def stars_html_prediction(rating):
+    # Determine the number of full stars
+    full_stars = int(rating)
+    # Determine if there is a half star
+    half_star = '★' if rating % 1 >= 0.5 else ''
+    # Determine the number of empty stars
+    empty_stars = '☆' * (5 - full_stars - (1 if half_star else 0))
+    # Combine full stars, half star, and empty stars
+    return '★' * full_stars + half_star + empty_stars
 
 def Prediction():
     # Streamlit App
@@ -385,8 +393,12 @@ def Prediction():
             # Predict the rating
             rating_prediction = rating_model.predict(vectorized_review_rating)
             predicted_rating = encoder.inverse_transform(rating_prediction)
-            # Adjust this line based on how your model expects input
-            st.write("Predicted Rating :", predicted_rating[0])
+            predicted_rating_value = int(predicted_rating[0])
+            sentiment_label = 'Positive' if sentiment == 1 else 'Negative'
+            
+            # Printing the results with stars
+            st.write("Sentiment:", sentiment_label)
+            st.write(f"Predicted Rating : {stars_html(predicted_rating_value)}")
 
 def semantic_search(query, documents, top_n=10):
     # Tokenize documents
