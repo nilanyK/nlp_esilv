@@ -77,7 +77,7 @@ with open(model_destination, 'rb') as model_file:
 
 
 script_directory = Path(__file__).parent
-tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer.pkl'
+tfidf_vectorizer_path = script_directory / 'tfidf_vectorizer_rating.pkl'
 
 # Open the file and load the model
 with open(tfidf_vectorizer_path, 'rb') as file:
