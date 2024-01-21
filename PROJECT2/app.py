@@ -404,7 +404,7 @@ def Prediction():
             # Display accuracy of the SVM model 
             st.write(f"Score : {probability:.2f}")
             # Predict the rating
-            rating_prediction = rating_model.predict(vectorized_review)[0]  # Adjust this line based on how your model expects input
+            rating_prediction = loaded_model_rating.predict(vectorized_review)[0]  # Adjust this line based on how your model expects input
             st.write("Predicted Rating:", rating_prediction)
 
 def semantic_search(query, documents, top_n=10):
