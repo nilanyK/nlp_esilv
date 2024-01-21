@@ -401,7 +401,7 @@ def explain_feature_importance_and_highlight_review(sentiment_model, tfidf_vecto
     st.table(feature_importance.head(10))
 
     st.write("Top negative features :")
-    st.table(feature_importance.tail(10))
+    st.table(feature_importance.tail(10).reset_index(drop=True))
 
     
 
