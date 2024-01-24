@@ -2,7 +2,7 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
 [KARUNATHASAN Nilany](https://www.linkedin.com/in/nilany-karunathasan-7b49691ba/) <br>
 [SAMBATH Sïndoumady](https://www.linkedin.com/in/s%C3%AFndoumady-sambath-a7519a209/) <br>
 <br>
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1wefYGTtTMoAVfRXJNx4I3EHMjxUJvqMA/view?usp=sharing] <br>
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1wefYGTtTMoAVfRXJNx4I3EHMjxUJvqMA/view?usp=sharing)] <br>
 
 
 <br>
