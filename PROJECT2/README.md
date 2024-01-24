@@ -39,7 +39,7 @@ The project repository contains the following main files :
 - **app.py** : The Python script for the Streamlit app, which allows users to explore data insights, view sentiment analysis results, and interact with the QA system.
 
 
-### Installation
+## Installation
 Our interactive application allows users to explore data insights, view sentiment analysis results, and interact with the QA system. <br>
 <br>
 **Streamlit App** <br>
@@ -85,7 +85,7 @@ Our interactive application allows users to explore data insights, view sentimen
   - A chatbot for answering user queries based on the review dataset. This interactive tool uses NLP to understand and respond to user inquiries, providing personalized recommendations and insights.
 
 
-### Data Collection and Preparation
+## Data Collection and Preparation
 Data was scraped from Trustpilot and Yelp. Rigorous data cleaning and preparation were performed to ensure the quality and consistency of the dataset.
 
 ### Contributors
