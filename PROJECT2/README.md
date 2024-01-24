@@ -57,7 +57,7 @@ Our interactive application allows users to explore data insights, view sentimen
        ```
        <br>
      - Run the Streamlit app by executing `app.py` : 
-       ```python
+       ```
        streamlit run app.py
        ```
        <br>
