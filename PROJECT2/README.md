@@ -44,7 +44,7 @@ Our interactive application allows users to explore data insights, view sentimen
 <br>
 **Streamlit App** <br>
      **• Public Access** <br>
-       You can acces the app through this link : https://project1nlpesilv.streamlit.app/ <br>
+       You can acces the app through this link : https://project2nlp.streamlit.app/ <br>
      **• Local Access** <br>
      - Clone this GitHub repository to your local machine using the following command: 
        ```
