@@ -21,8 +21,9 @@ ESILV - Machine Learning for NLP - Project 2024 <br>
 
 
 ### Overview
-This repository contains all files related to the first project of the course Machine Learning for NLP. This project focuses on enhancing information retrieval on the NFCorpus dataset, a collection of medical abstracts from PubMed publications. The primary goal was to beat the performance of the baseline BM25 model. We also developped a custom TF-IDF based retrieval system and a Streamlit app to provide an interactive interface for users to retrieve relevant documents.
- 
+This repository encompasses all files pertinent to the second project in the "Machine Learning for NLP" course. The project aims to utilize NLP techniques to extract valuable insights from customer reviews sourced from prominent review platforms. <br>
+To establish a comprehensive database, we chose to gather information from two main sources: Trustpilot and Yelp. Trustpilot, a customer review platform, and Yelp, a restaurant review site, offer an extensive dataset of restaurant reviews.
+
 ## Table of Contents
 - [Files](#files)
 - [Installation](#installation)
